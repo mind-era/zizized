@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="actor statement" enabled="false" id="scala.templates.actor" name="actor">val a = actor {
+  loop {
+    react {
+      ${line_selection}${cursor}
+    }
+  }
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="application object" enabled="true" id="scala.templates.app" name="app">/**
+ * ${cursor}TODO document ${name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+object ${name} extends App {
+  ${line_selection}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="Array[T](..)" enabled="true" id="scala.templates.arr" name="arr">Array[${value}](${args})${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="asInstanceOf[T]" enabled="true" id="scala.templates.asof" name="asof">asInstanceOf[${type}]${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="case statement" enabled="true" id="scala.templates.case" name="case">case ${value} =&gt; ${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="catch block" enabled="true" id="scala.templates.catch" name="catch">catch {
+  case ${t}: ${Throwable} =&gt; ${t}.printStackTrace()${cursor} // TODO: handle error
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="new class" enabled="true" id="scala.templates.newClass" name="class">/**
+ * ${cursor}TODO document ${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+class ${type_name}() {
+  ${line_selection}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="method" enabled="true" id="scala.templates.function" name="def">/**
+ * @return ${cursor}
+ */
+private[this] def ${name}(${}): ${Unit} = {
+  ${line_selection}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="else block" enabled="true" id="scala.templates.else" name="else">else {
+  ${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="else if block" enabled="true" id="scala.templates.elseif" name="elseif">else if (${condition}) {
+  ${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="finally block" enabled="true" id="scala.templates.finally" name="finally">finally {
+  ${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="if statement" enabled="true" id="scala.templates.if" name="if">if (${condition}) {
+  ${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="isInstanceOf[T]" enabled="true" id="scala.templates.isof" name="isof">isInstanceOf[${type}]${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="lazy val" enabled="true" id="scala.templates.lazy" name="lazy">lazy val ${name} = new ${type}(${cursor})</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="main" enabled="true" id="scala.templates.main" name="main">def main(args: Array[String]): Unit = {
+  ${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="match/case statement" enabled="true" id="scala.templates.match" name="match">${value} match {
+  case ${caseValue} =&gt; ${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="new object" enabled="true" id="scala.templates.newObject" name="obj">/**
+ * ${cursor}TODO document ${new_name}
+ *
+ * @author ${user}
+ * @since ${version}
+ */
+object ${new_name} {
+  ${line_selection}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="print to standard error" enabled="true" id="scala.templates.syserr" name="syserr">System.err.println(${word_selection}${})${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="print to standard out" enabled="true" id="scala.templates.sysout" name="sysout">println(${word_selection}${})${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="new trait" enabled="true" id="scala.templates.newTrait" name="trait">/**
+ * ${cursor}TODO document ${type_name}
+ *
+ * @author ${user}
+ * @since ${version}
+ */
+trait ${type_name} {
+  ${line_selection}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="try" enabled="true" id="scala.templates.try" name="try">try {
+  ${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="try catch block" enabled="true" id="scala.templates.trycatch" name="trycatch">try {
+  ${line_selection}${cursor}
+} catch {
+  case ${t}: ${Throwable} =&gt; ${t}.printStackTrace() // TODO: handle error
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="new constant" enabled="false" id="scala.templates.val" name="val">val ${new_name}: ${type} = ${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="new variable" enabled="false" id="scala.templates.var" name="var">var ${new_name}: ${type} = ${cursor}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="while loop" enabled="true" id="scala.templates.while" name="while">while (${condition}) {
+  ${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New App template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.app" name="wizard_app">/*
+ * Copyright (c) ${year} Mind Eratosthenes Kft.
+ * License: AGPL v3
+ */
+${package_name}
+
+/**
+ * ${cursor}TODO document ${package_name}.${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+object ${type_name} extends App {
+  
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New class template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.class" name="wizard_class">/*
+ * Copyright (c) ${year} Mind Eratosthenes Kft.
+ * License: AGPL v3
+ */
+${package_name}
+
+/**
+ * ${cursor}TODO document ${package_name}.${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+class ${type_name} {
+  
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New empty file template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.empty" name="wizard_empty">/*&#13;
+ * Copyright (c) ${year} Mind Eratosthenes Kft.&#13;
+ * License: AGPL v3&#13;
+ */&#13;
+&#13;
+/**&#13;
+ * ${TODO_document}&#13;
+ * &#13;
+ * @author ${user}&#13;
+ * @since ${version}&#13;
+ */&#13;
+</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New object template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.object" name="wizard_object">/*
+ * Copyright (c) ${year} Mind Eratosthenes Kft.
+ * License: AGPL v3
+ */
+${package_name}
+
+/**
+ * ${cursor}TODO document ${package_name}.${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+object ${type_name} {
+  
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New package object template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.packageObject" name="wizard_package_object">/*
+ * Copyright (c) ${year} Mind Eratosthenes Kft.
+ * License: AGPL v3
+ */
+${package_name}
+
+/**
+ * ${cursor}TODO document ${package_name}.${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+package object ${type_name} {
+  
+}</template><template autoinsert="true" context="org.scala-ide.sdt.core.templates" deleted="false" description="New trait template for the new file wizard" enabled="true" id="org.scalaide.core.templates.wizards.trait" name="wizard_trait">/*
+ * Copyright (c) ${year} Mind Eratosthenes Kft.
+ * License: AGPL v3
+ */
+${package_name}
+
+/**
+ * ${cursor}TODO document ${package_name}.${type_name}
+ * 
+ * @author ${user}
+ * @since ${version}
+ */
+trait ${type_name} {
+  
+}</template></templates>
