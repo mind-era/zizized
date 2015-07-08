@@ -23,9 +23,7 @@ scalaVersion := "2.11.7"
 
 scalacOptions += "-target:jvm-1.8"
 
-wartremoverWarnings ++= Warts.all
-
-wartremoverWarnings --= Seq(Warts.Var, Warts.DefaultArguments)
+wartremoverWarnings ++= Warts.allBut(Warts.Var, Warts.DefaultArguments)
 
 //persistLauncher in Compile := true
 
