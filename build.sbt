@@ -25,6 +25,8 @@ scalacOptions += "-target:jvm-1.8"
 
 wartremoverWarnings ++= Warts.all
 
+wartremoverWarnings --= Seq(Warts.Var, Warts.DefaultArguments)
+
 //persistLauncher in Compile := true
 
 //persistLauncher in Test := false
@@ -184,7 +186,7 @@ scalacOptions ++= Seq(
   "-language:higherKinds",
   "-language:reflectiveCalls",
   "-Xlint",
-  "-Xfatal-warnings",
+//  "-Xfatal-warnings",
   "-Yno-adapted-args",
   "-Ywarn-dead-code",
   "-Ywarn-numeric-widen",
