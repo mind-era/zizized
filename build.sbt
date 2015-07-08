@@ -7,7 +7,7 @@ organizationName := "Mind Eratosthenes Kft."
 
 organizationHomepage := Some(url("http://mind-era.com"))
 
-homepage := Some(url("http://github.com/mind_era/zizized"))
+homepage := Some(url("http://github.com/mind-era/zizized"))
 
 startYear := Some(2015)
 
@@ -75,17 +75,17 @@ libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.3"
 
 libraryDependencies += "net.codingwell" %% "scala-guice" % "4.0.0"
 
-libraryDependencies += "com.chuusai" %% "shapeless" % "2.2.3"
+libraryDependencies += "com.chuusai" %% "shapeless" % "2.2.4"
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.3"
 
 libraryDependencies += "com.twitter" %% "algebird-core" % "0.10.2"
 
-libraryDependencies += "org.scala-miniboxing.plugins" %%
-                       "miniboxing-runtime" % "0.4-SNAPSHOT"
+//libraryDependencies += "org.scala-miniboxing.plugins" %%
+//                       "miniboxing-runtime" % "0.4-SNAPSHOT"
 
-addCompilerPlugin("org.scala-miniboxing.plugins" %%
-                  "miniboxing-plugin" % "0.4-SNAPSHOT")
+//addCompilerPlugin("org.scala-miniboxing.plugins" %%
+//                  "miniboxing-plugin" % "0.4-SNAPSHOT")
 
 //End utilities
 
