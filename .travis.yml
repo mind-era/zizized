@@ -1,4 +1,13 @@
-﻿# See http://about.travis-ci.org/docs/user/build-configuration/
+# See http://about.travis-ci.org/docs/user/build-configuration/
+# use Docker-based container (instead of OpenVZ)
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.m2/repository
+    - $HOME/.sbt
+    - $HOME/.ivy2
+
 language: scala
 jdk:
   - oraclejdk8
