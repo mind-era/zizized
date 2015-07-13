@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Mind Eratosthenes Kft.
  * License: AGPL v3
  */
-package src.main.scala.com.mind_era.zizized.util
+package com.mind_era.zizized.util
 
 /**
  * TODO document package util.ApproxSet
