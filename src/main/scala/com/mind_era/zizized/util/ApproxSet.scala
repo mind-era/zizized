@@ -4,8 +4,6 @@
  */
 package com.mind_era.zizized.util
 
-import shapeless.ops.nat.ToInt
-
 /**
  * ApproxSet: port of /util/approx_set.h and /util/approx_set.cpp
  * 
@@ -61,7 +59,7 @@ class ApproxSet[T]( val e2u : (T) => Int, set : Long  = ApproxSet.zero ) extends
     builder.+=('{')
     val iter : Iterator[ Int ] = iterator
     var first : Boolean = true
-    while( iter.hasNext ){
+    while( iter.hasNext ){ //TODO rewrite using 'continually'?
       if( first ) first = false else builder+=(',')
       builder++=( iter.next().toString() )
     }
