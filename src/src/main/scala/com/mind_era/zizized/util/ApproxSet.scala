@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Mind Eratosthenes Kft.
  * License: AGPL v3
  */
-package util
+package src.main.scala.com.mind_era.zizized.util
 
 /**
  * TODO document package util.ApproxSet
@@ -30,7 +30,7 @@ class ApproxSet[T]( val e2u : (T) => Int, set : Long  = ApproxSet.zero ) {
   def e2s( e: T ): Long = { ApproxSet.u2s(e2u(e)) }
   def insert( e: T ): Unit = { m_set |= e2s( e ) }
   def mayContain( e: T ): Boolean = { (m_set & e2s(e))!=ApproxSet.zero }
-  def mustNotContain( e: T ): Boolean = { !mayContain( e ) }
+  def mustNotContain( e: T ): Boolean = { !(mayContain( e )) }
   def |=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set |= rhs.m_set; this }
   def &=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set &= rhs.m_set; this }
   def -=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set &= ~rhs.m_set; this }
