@@ -4,9 +4,14 @@
  */
 package com.mind_era.zizized.util
 
+import spire.math.UInt
+
 /**
- * util/Vector.h and util/Vector.cpp : the Scala vector is just as good
+ * TODO document package com.mind_era.zizized.util.cpp
  * 
  * @author Szabolcs Ivan
  * @since version
  */
+object cpp {
+  val UINT_MAX : UInt = UInt.MaxValue
+}

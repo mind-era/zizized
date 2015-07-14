@@ -54,18 +54,7 @@ class ApproxSet[T]( val e2u : (T) => Int, set : Long  = ApproxSet.zero ) extends
       offset - 1;
     }
   }
-  override def toString : String = {
-    val builder : StringBuilder = new StringBuilder
-    builder.+=('{')
-    val iter : Iterator[ Int ] = iterator
-    var first : Boolean = true
-    while( iter.hasNext ){ //TODO rewrite using 'continually'?
-      if( first ) first = false else builder+=(',')
-      builder++=( iter.next().toString() )
-    }
-    builder.+=('}')
-    builder.toString()
-  }
+  override def toString : String = iterator.mkString("{", ",", "}")
 }
 
 object ApproxSet {
