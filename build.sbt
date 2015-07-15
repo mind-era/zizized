@@ -51,9 +51,9 @@ OsgiKeys.exportPackage := Seq("com.mind_era.zizized")
 
 //Testing
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0-M5" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.5" % "test"
 
-libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test"
+libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test"
 
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
 
@@ -80,6 +80,8 @@ libraryDependencies += "com.chuusai" %% "shapeless" % "2.2.4"
 libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.3"
 
 libraryDependencies += "com.twitter" %% "algebird-core" % "0.10.2"
+
+libraryDependencies += "com.propensive" %% "rapture-core" % "1.1.0"
 
 //libraryDependencies += "org.scala-miniboxing.plugins" %%
 //                       "miniboxing-runtime" % "0.4-SNAPSHOT"
@@ -191,5 +193,7 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard",
   "-Xfuture"
 )
+
+EclipseKeys.withSource := true
 
 pomIncludeRepository := { x => false }
