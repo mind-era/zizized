@@ -4,14 +4,7 @@
  */
 package com.mind_era.zizized.util
 
-/**
- * util/Vector.h and util/Vector.cpp : the Scala vector is just as good
- * 
- * @author Szabolcs Ivan
- * @since version
- */
-
-package object util{
+package object util {
   type Vector[T] = scala.`package`.Vector[T]
 }
 

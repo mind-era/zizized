@@ -11,6 +11,8 @@ import com.mind_era.zizized.util.util.Vector
 import com.mind_era.zizized.util.UNDEF
 import com.mind_era.zizized.util.TRUE
 import com.mind_era.zizized.util.FALSE
+import com.mind_era.zizized.util.ApproxSet
+import com.mind_era.zizized.util.LBool
 
 /**
  * TODO document package com.mind_era.zizized.sat.SatTypes
@@ -31,7 +33,7 @@ object SatTypes {
   
   type LiteralApproxSet = ApproxSet[ Literal ] // TODO: instantiate with e2u being Literal.toUInt
   type VarApproxSet = ApproxSet[ BoolVar ] // TODO: instantiate with e2u being identity u=>u
-
+  type BoolVarSet = UIntSet 
 }
 
 class Literal( v : SatTypes.BoolVar = SatTypes.NullBoolVar, isPositive : Boolean = true) {
@@ -47,15 +49,15 @@ class Literal( v : SatTypes.BoolVar = SatTypes.NullBoolVar, isPositive : Boolean
   def < ( rhs : Literal ) : Boolean = value < rhs.value
   def == ( rhs : Literal ) : Boolean = value == rhs.value
   def != ( rhs : Literal ) : Boolean = value != rhs.value
-  override def toString : String = if ( sign ) "-" + variable.toString() else variable.toString()
+  override def toString : String = toInt.toString()
+  def toInt : Int = if( sign ) -variable.toInt else variable.toInt
   
 }
 
 object Literal {
   val nullLiteral : Literal = new Literal()
   def apply( u : UInt ) : Literal = { val r = new Literal(); r.value = u; r }
-  def toUInt( l : Literal ) : UInt = l.value
-  
+  def toUInt( l : Literal ) : UInt = l.value  
 }
 
 class Model( val v : Vector[LBool] ) {
@@ -65,5 +67,17 @@ class Model( val v : Vector[LBool] ) {
   override def toString : String = v.zipWithIndex.flatMap( evaluate(_) ).mkString(" ")
 }
 
-//TODO line 150-től sat_types.h
+class LiteralSet extends UIntSet {
+  def insert( l : Literal ) : Unit = super.insert( l.index.toInt )
+  def contains( l : Literal ) : Boolean = super.contains( l.index.toInt )
+}
+
+//TODO mem_stat is unimplemented
+
+class DimacsLit extends Literal {
+  override def toInt : Int = if( sign ) super.toInt - 1 else super.toInt + 1 
+  override def toString() : String = toInt.toString()
+}
+
+
 //TODO tesztelni!!!
