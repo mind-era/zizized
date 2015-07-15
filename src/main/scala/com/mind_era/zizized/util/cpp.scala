@@ -7,8 +7,6 @@ package com.mind_era.zizized.util
 import spire.math.UInt
 
 /**
- * TODO document package com.mind_era.zizized.util.cpp
- * 
  * @author Szabolcs Ivan
  * @since version
  */

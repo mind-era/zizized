@@ -4,108 +4,135 @@
  */
 package com.mind_era.zizized.util
 
+import scala.collection.mutable.BitSet
+
 /**
  * ApproxSet: port of /util/approx_set.h and /util/approx_set.cpp
  * 
  * A data structure for set approximation.
  * 
  * Initialized by a function e2u mapping the underlying type T to Ints, maintains a bitset
- * (represented internally by a Long) such that element e : T is represented by the e2u(e)&63-th bit.
+ * such that element e : T is represented by the e2u(e)&63-th bit.
  * Thus collisions can occur, that's why it's "approximate".
  * 
  * This implementation is mutable.
  * 
- * TODO: the original implementation wastes resources and has inconsistent naming issues, several methods are repeated. Clean them up.
- * TODO: implement Iterator.  
- * 
  * @author Szabolcs Ivan
  * @since version
  */
-class ApproxSet[T]( val e2u : (T) => Int, set : Long  = ApproxSet.zero ) extends Iterable[ Int ]{
+class ApproxSet[T] protected ( val e2u : (T) => Int, val capacity : Int = 64) extends Iterable[ Int ]{
   /**
-   * the Long member encoding the bit field 
+   * Instead of a Long we use a BitSet here 
    */
-  var m_set : Long = set
-  def e2s( e: T ): Long = { ApproxSet.u2s(e2u(e)) }
+  val bitset : BitSet = new BitSet( capacity );
   /**
-   * 
+   * e2s : maps a position of the bitset to the object e : T
    */
-  def insert( e: T ): Unit = { m_set |= e2s( e ) }
-  def mayContain( e: T ): Boolean = { (m_set & e2s(e))!=ApproxSet.zero }
-  def mustNotContain( e: T ): Boolean = { !(mayContain( e )) }
-  def |=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set |= rhs.m_set; this }
-  def &=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set &= rhs.m_set; this }
-  def -=( rhs: ApproxSet[T] ) : ApproxSet[T] = { m_set &= ~rhs.m_set; this }
-  override def isEmpty : Boolean = { m_set == ApproxSet.zero }
-  def mustNotSubset( rhs: ApproxSet[T] ) : Boolean = { (m_set & ~rhs.m_set) != ApproxSet.zero }
-  def mustNotSubsume( rhs: ApproxSet[T] ) : Boolean = mustNotSubset( rhs ) //TODO: why?
-  def equiv( rhs: ApproxSet[T] ) : Boolean = { m_set == rhs.m_set } //TODO: clean up namings
-  def reset: ApproxSet[T] = { m_set = ApproxSet.zero; this}
-  def emptyIntersection( rhs: ApproxSet[T] ) : Boolean = { (m_set & rhs.m_set) == ApproxSet.zero }
-  override def size : Int = { var ret : Int = 0; var set : Long = m_set; while( set != 0 ){ ret = ret+1; set = set & (set - 1)}; ret }
-  def iterator = new Iterator[ Int ]{
-    var set = m_set
-    var offset = 0
-    def hasNext = (set != 0)
-    def next = {
-      while( (set & 1) != 0 ){ set = set >> 1; offset = offset+1; }
-      set = set >> 1;
-      offset = offset + 1;
-      offset - 1;
-    }
-  }
+  def e2s( e: T ): Int = { u2s(e2u(e)) }
+  /**
+   * u2s: maps an int to a position of the bitset 
+   */
+  def u2s( u: Int ) : Int = Math.floorMod( u, capacity )
+  /**
+   * insert: inserts the value's hashcode to the bitset
+   */
+  def insert( e: T ): Boolean = bitset.add( e2s(e))
+  def remove( e: T ): Boolean = bitset.remove( e2s(e))
+  /**
+   * mayContain: returns true iff the bitset contains the hashcode of the object. 
+   */
+  def mayContain( e: T ): Boolean = bitset.contains( e2s(e))
+  /**
+   * mustNotContain: returns true iff the bitset does not contain the hashcode of the object.
+   */
+  def mustNotContain( e: T ): Boolean = !bitset.contains( e2s(e) )
+  
+  /**
+   * Boolean operators |= (union), &= (intersection), -= (difference) mutating the object.
+   */
+  def |=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset |= rhs.bitset; this }  
+  def &=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset &= rhs.bitset; this }
+  def -=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset &~= rhs.bitset; this }
+  /**
+   * Boolean operators | (union), & (intersection), - (difference) constructing a new object. 
+   */
+  def |( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() |= rhs }
+  def &( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() &= rhs }
+  def -( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() -= rhs }
+
+  /**
+   * isEmpty returns true iff the bitset is empty
+   */
+  override def isEmpty : Boolean = bitset.isEmpty
+  
+  /**
+   * H.mustNotSubsume( K ) holds iff K contains a hash code not present in H
+   */
+  def mustNotSubsume( rhs: ApproxSet[T] ) : Boolean = !rhs.bitset.subsetOf( bitset )
+  
+  /**
+   * H.maySubsetOf( K ) holds iff each hash of H also appears in K as well 
+   */
+  def maySubsetOf( rhs: ApproxSet[T] ) : Boolean = bitset.subsetOf( rhs.bitset )
+  
+  /**
+   * H.mayEqual( K ) iff the set of the stored hashes coincide 
+   */
+  def mayEqual( rhs: ApproxSet[T] ) : Boolean = bitset.equals( rhs.bitset )
+  
+  /**
+   * Clears the set.
+   */
+  def clear: ApproxSet[T] = { bitset.clear(); this }
+
+  /**
+   * H.isDisjointFrom( K ) if they have no common hash.
+   */
+  def isDisjointFrom( rhs: ApproxSet[T] ) : Boolean = (bitset & rhs.bitset).isEmpty
+  
+  /**
+   * size returns the number of distinct hash codes.
+   */
+  override def size : Int = bitset.size
+  
+  /**
+   * iterator iterates through the stored hashcodes (from 0 up to capacity-1) 
+   */
+  def iterator = bitset.iterator
+  /**
+   * toString returns a string representation of the bitset of the form e.g. {1,2,4}
+   */
   override def toString : String = iterator.mkString("{", ",", "}")
+  
+  /**
+   * clones an ApproxSet
+   * TODO type safety for subclasses
+   */
+  override def clone() : ApproxSet[T] = { 
+    val ret = new ApproxSet[T]( e2u );
+    ret.bitset |= bitset;
+    ret
+  } 
 }
 
 object ApproxSet {
-  val capacity : Int = 64
-  val zero : Long = 0
-  val one : Long = 1
-  /**
-   * Constructs an approximated set with the specified content s
-   */
-  def r2s[T]( e2u: (T) => Int, s : Long ) : ApproxSet[T] =  { new ApproxSet[T]( e2u, s ) }
-  /**
-   * Maps an Int u to a position in the bitset.
-   * Namely, u gets mapped to u % 64.
-   */
-  def u2s( u: Int ) : Long = { ApproxSet.one << (u & ( ApproxSet.capacity - 1)) }
+  def apply[T]( e2u: (T) => Int ) : ApproxSet[T] = new ApproxSet[T](e2u)
   /**
    * Constructs a singleton approxset containing the element e.
    */
-  def apply[T]( e2u: (T) => Int, e : T ) : ApproxSet[T] = { new ApproxSet[T]( e2u, u2s(e2u(e) ) ) }
-  /**
-   * Constructs an approxset containing the elements of the array.
-   * Argument size is redundant and not used, is present only for resolving ambiguity.
-   * TODO: refactor? 
-   */
-  def apply[T]( e2u: (T) => Int, size: Int, a : Array[T] ) : ApproxSet[T] = {
+  def apply[T]( e2u: (T) => Int, e : T ) : ApproxSet[T] = { 
     val ret = new ApproxSet[T]( e2u )
-    a.foreach( ret.insert(_) )
+    ret.insert(e)
     ret
   }
   /**
-   * Constructs the union of approxsets a and b, the original sets are not modified.
-   * Assumption: the sets have to agree on their e2u function.  
+   * Constructs an approxset containing the elements of the array.
    */
-  def union[T]( a: ApproxSet[T], b: ApproxSet[T] ): ApproxSet[T] = { new ApproxSet[T]( a.e2u, a.m_set | b.m_set ) }
-  /**
-   * Constructs the intersection of the approxsets a and b, the original sets are not modified.
-   * Assumption: the sets have to agree on their e2u function.
-   */
-  def intersection[T]( a: ApproxSet[T], b: ApproxSet[T] ): ApproxSet[T] = { new ApproxSet[T]( a.e2u, a.m_set & b.m_set ) }
-  
-  def mustNotSubset[T]( a: ApproxSet[T], b: ApproxSet[T] ) : Boolean = { a.mustNotSubset( b ) }
-  def mustNotSubsume[T]( a: ApproxSet[T], b: ApproxSet[T] ) : Boolean = { a.mustNotSubsume( b ) }
-  /**
-   * 
-   */
-  def mustNotEq[T]( a: ApproxSet[T], b: ApproxSet[T] ) : Boolean = { a.m_set != b.m_set }
-  def mayEq[T]( a: ApproxSet[T], b: ApproxSet[T] ) : Boolean = { a.m_set == b.m_set }
-  def equiv[T]( a: ApproxSet[T], b: ApproxSet[T] ) : Boolean = { a.m_set == b.m_set } //TODO: why??
-  def approxSubset[T]( a: ApproxSet[T], b: ApproxSet[T]): Boolean = { !a.mustNotSubset(b) } // TODO: FIX NAMING ISSUES HERE
+  def apply[T]( e2u: (T) => Int, iterable: Iterable[T] ) : ApproxSet[T] = {
+    val ret = new ApproxSet[T]( e2u )
+    iterable.foreach( ret.insert(_) )
+    ret
+  }
 }
 
-class Approx_Set( e : Long = 0 )  extends ApproxSet[ Long ]( u => u.toInt , e ) {
-
-}
+class IntApproxSet extends ApproxSet[ Int ]( n => n ){}

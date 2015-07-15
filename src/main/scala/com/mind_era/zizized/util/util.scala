@@ -4,7 +4,7 @@
  */
 package com.mind_era.zizized.util
 
-package object util {
+object `package` {
   // scala's Vector is at least as good as the one in "util/vector.h"
   // TODO this way it's util.util.Vector which is ugly a bit
   type Vector[T] = scala.`package`.Vector[T]
@@ -26,8 +26,10 @@ sealed trait LBool {
   /**
    * LBool( true ) returns TRUE, LBool( false ) returns FALSE
    */
-  def apply( b : Boolean ) : LBool = if ( b ) TRUE else FALSE
   def toSatString : String
+}
+object LBool {
+  def apply( b : Boolean ) : LBool = if ( b ) TRUE else FALSE  
 }
 case object TRUE extends LBool {
   override def toString() : String = "l_true"

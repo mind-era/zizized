@@ -7,7 +7,7 @@ package com.mind_era.zizized.sat
 import spire.math.UInt
 import com.mind_era.zizized.util.ApproxSet
 import com.mind_era.zizized.util.LBool
-import com.mind_era.zizized.util.util.Vector
+import com.mind_era.zizized.util.Vector
 import com.mind_era.zizized.util.UNDEF
 import com.mind_era.zizized.util.TRUE
 import com.mind_era.zizized.util.FALSE
@@ -22,7 +22,7 @@ import com.mind_era.zizized.util.LBool
  */
 object SatTypes {
   type BoolVar = UInt
-  type BoolVarVector = com.mind_era.zizized.util.util.Vector[Int] 
+  type BoolVarVector = Vector[Int] 
   
   val NullBoolVar : BoolVar = com.mind_era.zizized.util.cpp.UINT_MAX >> 1
   
