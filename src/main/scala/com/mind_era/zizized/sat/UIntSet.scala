@@ -6,6 +6,7 @@ package com.mind_era.zizized.sat
 
 import scala.collection.mutable.BitSet
 import spire.math.UInt
+import scala.collection.mutable.Stack
 
 /**
  * UIntSet (in util/sat_types.h) is a bitset of unsigned ints, with an additional method
@@ -21,16 +22,15 @@ class UIntSet extends Iterable[ Int ]{
    * all the mutators which is risky to say the least.
    */
   val bitset : BitSet = new BitSet
-  var stack : List[Int] = List()
-  def insert( v : Int ) : Unit = if( bitset.add( v ) ) stack = v :: stack
+  var stack : Stack[Int] = Stack()
+  def insert( v : Int ) : Unit = if( bitset.add( v ) ) stack.push( v )
   def contains( v : Int ) : Boolean = bitset.contains( v )
   override def isEmpty : Boolean = stack.isEmpty
   def erase() : Int = {
-    val v = stack.head
-    stack = stack.drop(1)
+    val v = stack.pop
     bitset.remove( v )
     v
   }
   override def iterator = stack.iterator
-  def clear() : Unit = { bitset.clear(); stack = List() }
+  def clear() : Unit = { bitset.clear(); stack.clear() }
 }
