@@ -18,7 +18,7 @@ import com.mind_era.zizized.util.LBool
  * TODO document package com.mind_era.zizized.sat.SatTypes
  * 
  * @author Szabolcs Ivan
- * @since version
+ * @since 1.0
  */
 object SatTypes {
   type BoolVar = UInt
@@ -63,8 +63,13 @@ object Literal {
 class Model( val v : Vector[LBool] ) {
   def valueAt( _v : SatTypes.BoolVar ) : LBool = v( _v.toInt )
   def valueAt( _v : Literal ) : LBool = { if ( _v.sign ) ~v( _v.variable.toInt ) else v( _v.variable.toInt ) }
-  def evaluate( p : (LBool, Int )) : Option[String] = p match { case (b,i) => if (b == TRUE ) Some(i.toString) else if (b == FALSE ) Some((-i).toString) else None }
-  override def toString : String = v.zipWithIndex.flatMap( evaluate(_) ).mkString(" ")
+  def evaluate( p : (LBool, Int )) : Option[String] = {
+    val (b,i) = p
+    if (b == TRUE) Some(i.toString)
+    else if (b == FALSE) Some((-i).toString)
+    else None
+  }
+  override def toString : String = v.zipWithIndex.map( evaluate(_) ).filterNot(_.isEmpty).mkString(" ")
 }
 
 class LiteralSet extends UIntSet {

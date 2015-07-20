@@ -18,7 +18,7 @@ import scala.collection.mutable.BitSet
  * This implementation is mutable.
  * 
  * @author Szabolcs Ivan
- * @since version
+ * @since 1.0
  */
 class ApproxSet[T] protected ( val e2u : (T) => Int, val capacity : Int = 64) extends Iterable[ Int ]{
   /**
@@ -50,9 +50,9 @@ class ApproxSet[T] protected ( val e2u : (T) => Int, val capacity : Int = 64) ex
   /**
    * Boolean operators |= (union), &= (intersection), -= (difference) mutating the object.
    */
-  def |=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset |= rhs.bitset; this }  
-  def &=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset &= rhs.bitset; this }
-  def -=( rhs: ApproxSet[T] ) : ApproxSet[T] = { bitset &~= rhs.bitset; this }
+  def |=( rhs: ApproxSet[T] ) : ApproxSet[T] = { discard{ bitset |= rhs.bitset }; this }  
+  def &=( rhs: ApproxSet[T] ) : ApproxSet[T] = { discard{ bitset &= rhs.bitset }; this }
+  def -=( rhs: ApproxSet[T] ) : ApproxSet[T] = { discard{ bitset &~= rhs.bitset }; this }
   /**
    * Boolean operators | (union), & (intersection), - (difference) constructing a new object. 
    */
@@ -109,8 +109,8 @@ class ApproxSet[T] protected ( val e2u : (T) => Int, val capacity : Int = 64) ex
    * TODO type safety for subclasses
    */
   override def clone() : ApproxSet[T] = { 
-    val ret = new ApproxSet[T]( e2u );
-    ret.bitset |= bitset;
+    val ret = new ApproxSet[T]( e2u )
+    discard{ ret.bitset |= bitset }
     ret
   } 
 }
@@ -122,7 +122,7 @@ object ApproxSet {
    */
   def apply[T]( e2u: (T) => Int, e : T ) : ApproxSet[T] = { 
     val ret = new ApproxSet[T]( e2u )
-    ret.insert(e)
+    discard{ ret.insert(e) }
     ret
   }
   /**
@@ -135,4 +135,6 @@ object ApproxSet {
   }
 }
 
-class IntApproxSet extends ApproxSet[ Int ]( n => n ){}
+//No idea why or how Nothing was inferred.
+@SuppressWarnings(Array("org.brianmckenna.wartremover.warts.Nothing"))
+class IntApproxSet extends ApproxSet[ Int ]( ((n:Int) => n): Int => Int ){}

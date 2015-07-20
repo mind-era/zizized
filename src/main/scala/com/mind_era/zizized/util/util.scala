@@ -6,12 +6,6 @@ package com.mind_era.zizized.util
 
 import scala.collection.mutable.ArrayBuffer
 
-object `package` {
-  // scala's Vector is at least as good as the one in "util/vector.h"
-  // TODO this way it's util.util.Vector which is ugly a bit
-  type Vector[T] = ArrayBuffer[T]
-}
-
 /**
  * util/lbool.h and util/lbool.cpp : ternary Boolean value
  * operator<< is now toString()
