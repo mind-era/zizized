@@ -15,7 +15,7 @@ import scala.collection.generic.Growable
  */
 class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterable[ T ]{
   val m_values : Vector[T] = new Vector[T]()
-  m_values( 0 ) = defaultT
+  m_values  += defaultT
   val m_valuesToIndices : scala.collection.mutable.Map[ T, Int ] = new TrieMap[ T, Int ]()
   
   def set( idx : Int, value : T ) : Unit = {
@@ -25,7 +25,7 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
   
   def moveUp( idx: Int, value: T ) : Unit = {
     val parentIdx : Int = Heap.parent( idx )
-    if( (parentIdx > 0) && (ordering.lt(m_values(parentIdx),value))) {
+    if( (parentIdx > 0) && (ordering.lt(value, m_values(parentIdx)))) {
       set( idx, m_values( parentIdx ) )
       moveUp( parentIdx, value )
     } else set( idx, value )
@@ -49,7 +49,7 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
   override def isEmpty : Boolean = m_values.size == 1
   override def iterator : Iterator[T] = { val it = m_values.iterator; it.next; it }
   def contains( value : T ) : Boolean = m_valuesToIndices.contains( value )
-  def clear() : Unit = { m_values.clear(); m_values(0) = defaultT; m_valuesToIndices.clear() }
+  def clear() : Unit = { m_values.clear(); m_values += defaultT; m_valuesToIndices.clear() }
   def getBounds() : T = { m_valuesToIndices.keySet.max( ordering ) }
   def minValue : T = { m_values(1) }
   override def size : Int = m_values.size - 1
@@ -82,9 +82,12 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
   }
   def decreased( value : T ) : Unit = moveUp( m_valuesToIndices( value ))
   def increased( value : T ) : Unit = moveDown( m_valuesToIndices( value ))
+  def changed( value : T ) : Unit = handleChange( m_valuesToIndices(value))
   def insert( value : T ) : Unit = {
-    val idx : Int = m_values.size
-    set( idx, value )
+   val idx : Int = m_values.size
+    m_values += value
+    m_valuesToIndices( value ) = idx
+    assert( m_values(idx) == value )
     moveUp( idx, value )
   }
   def findLE( value : T , result : Growable[T], idx : Int ){
@@ -93,6 +96,14 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
       findLE( value, result, Heap.left( idx ))
       findLE( value, result, Heap.right( idx ))
     }
+  }
+  def isWellFormed : Boolean = {
+    var i = 0
+    var ret = true
+    for( i <- 2 to m_values.size - 1 ){
+      if( ordering.gt( m_values( Heap.parent(i)), m_values( i ) )) ret = false
+    }
+    ret
   }
 }
 
