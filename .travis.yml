@@ -21,3 +21,7 @@ notifications:
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
+script: "sbt clean coverage test"
+after_success:
+  - jdk_switcher use oraclejdk7
+  - sbt coveralls
