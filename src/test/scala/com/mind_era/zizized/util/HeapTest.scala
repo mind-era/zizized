@@ -12,7 +12,6 @@ import scala.util.Random
  * TODO document package com.mind_era.zizized.util.HeapTest
  * 
  * @author Szabolcs Ivan
- * @since version
  */
 class HeapTest extends FlatSpec {
   "A Heap " should " act as a set " in {
@@ -28,7 +27,7 @@ class HeapTest extends FlatSpec {
         assert( set.contains( value ))
       }else{
         assert( !set.contains( value ))
-        set += value
+        discard{ set += value }
         heap.insert( value )
       }
     }
@@ -36,7 +35,7 @@ class HeapTest extends FlatSpec {
     while( !set.isEmpty ){
       assert( heap.isWellFormed )
       val setMin = set.min( ordering )
-      set.remove( setMin )
+      discard{ set.remove( setMin ) }
       val priMin = heap.eraseMin
       assert( setMin == priMin )
     }

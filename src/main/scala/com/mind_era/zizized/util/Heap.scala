@@ -11,11 +11,11 @@ import scala.collection.generic.Growable
  * TODO document package com.mind_era.zizized.util.Heap
  * 
  * @author Szabolcs Ivan
- * @since version
+ * @since 1.0
  */
 class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterable[ T ]{
   val m_values : Vector[T] = new Vector[T]()
-  m_values  += defaultT
+  discard{ m_values += defaultT }
   val m_valuesToIndices : scala.collection.mutable.Map[ T, Int ] = new TrieMap[ T, Int ]()
   
   def set( idx : Int, value : T ) : Unit = {
@@ -47,32 +47,34 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
   }
   def moveDown( idx : Int) : Unit = moveDown( idx, m_values( idx ) )
   override def isEmpty : Boolean = m_values.size == 1
-  override def iterator : Iterator[T] = { val it = m_values.iterator; it.next; it }
+  override def iterator : Iterator[T] = { val it = m_values.iterator; discard{ it.next }; it }
   def contains( value : T ) : Boolean = m_valuesToIndices.contains( value )
-  def clear() : Unit = { m_values.clear(); m_values += defaultT; m_valuesToIndices.clear() }
+  def clear() : Unit = { m_values.clear(); discard{ m_values += defaultT }; m_valuesToIndices.clear() }
   def getBounds() : T = { m_valuesToIndices.keySet.max( ordering ) }
   def minValue : T = { m_values(1) }
   override def size : Int = m_values.size - 1
   def eraseMin : T = {
     val result = minValue
-    m_valuesToIndices.remove( result )
-    if( size > 1 ) {
-      set( 1, m_values( m_values.size - 1 ) )
-      m_values.remove( m_values.size - 1 )
-      moveDown( 1 )
-    } else {
-      m_values.remove( 1 )
+    discard{m_valuesToIndices.remove( result )}
+    discard[Any]{
+      if( size > 1 ) {
+        set( 1, m_values( m_values.size - 1 ) )
+        discard { m_values.remove( m_values.size - 1 ) }
+        moveDown( 1 )
+      } else {
+        m_values.remove( 1 )
+      }
     }
     result
   }
   def erase( value : T ) : Unit = {
-    val idx : Int = m_valuesToIndices.remove( value ) match { case Some( n ) => n; case None => -1 }
+    val idx : Int = m_valuesToIndices.remove( value ).getOrElse(-1)
     if( idx == m_values.size - 1 ){
-      m_values.remove( m_values.size - 1 )
+      discard{ m_values.remove( m_values.size - 1 ) }
     } else {
       val lastValue = m_values( m_values.size - 1 )
       set( idx, lastValue )
-      m_values.remove( m_values.size - 1 )
+      discard{ m_values.remove( m_values.size - 1 ) }
       handleChange( idx )
     }    
   }
@@ -84,15 +86,15 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
   def increased( value : T ) : Unit = moveDown( m_valuesToIndices( value ))
   def changed( value : T ) : Unit = handleChange( m_valuesToIndices(value))
   def insert( value : T ) : Unit = {
-   val idx : Int = m_values.size
-    m_values += value
+    val idx : Int = m_values.size
+    discard{ m_values += value }
     m_valuesToIndices( value ) = idx
     assert( m_values(idx) == value )
     moveUp( idx, value )
   }
   def findLE( value : T , result : Growable[T], idx : Int ) : Unit = {
     if(( idx < m_values.size )&& ( ordering.lteq(m_values(idx), value) ) ){
-      result += m_values(idx)
+      discard{ result += m_values(idx) }
       findLE( value, result, Heap.left( idx ))
       findLE( value, result, Heap.right( idx ))
     }
