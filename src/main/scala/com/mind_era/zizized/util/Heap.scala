@@ -90,7 +90,7 @@ class Heap[ T ] ( val ordering : Ordering[T], val defaultT : T ) extends Iterabl
     assert( m_values(idx) == value )
     moveUp( idx, value )
   }
-  def findLE( value : T , result : Growable[T], idx : Int ){
+  def findLE( value : T , result : Growable[T], idx : Int ) : Unit = {
     if(( idx < m_values.size )&& ( ordering.lteq(m_values(idx), value) ) ){
       result += m_values(idx)
       findLE( value, result, Heap.left( idx ))
