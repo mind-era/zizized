@@ -23,5 +23,4 @@ notifications:
     on_start: false     # default: false
 script: "sbt clean coverage test"
 after_success:
-  - jdk_switcher use oraclejdk7
   - sbt coveralls
