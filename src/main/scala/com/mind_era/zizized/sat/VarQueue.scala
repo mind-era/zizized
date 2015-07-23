@@ -24,7 +24,7 @@ class VarQueue( val activity : BoolVar => Int ) {
   def mkVarEh( b : BoolVar ) : Unit = queue.insert( b )
   def delVarEh( b : BoolVar ) : Unit = if( queue.contains( b )) queue.erase( b )
   def unassignVarEh( b : BoolVar ) : Unit = if( !queue.contains(b) ) queue.insert( b )
-  def clear : Unit = queue.clear()
+  def clear() : Unit = queue.clear()
   def isEmpty : Boolean = queue.isEmpty
   def nextVar : BoolVar = queue.eraseMin
 }

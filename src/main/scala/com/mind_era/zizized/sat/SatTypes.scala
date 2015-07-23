@@ -34,6 +34,8 @@ object SatTypes {
   type LiteralApproxSet = ApproxSet[ Literal ] // TODO: instantiate with e2u being Literal.toUInt
   type VarApproxSet = ApproxSet[ BoolVar ] // TODO: instantiate with e2u being identity u=>u
   type BoolVarSet = UIntSet 
+  
+  type WatchList = Vector[ Watched ] // from sat_watched.h
 }
 
 class Literal( v : SatTypes.BoolVar = SatTypes.NullBoolVar, isPositive : Boolean = true) {
@@ -63,12 +65,12 @@ object Literal {
 class Model( val v : Vector[LBool] ) {
   def valueAt( _v : SatTypes.BoolVar ) : LBool = v( _v.toInt )
   def valueAt( _v : Literal ) : LBool = { if ( _v.sign ) ~v( _v.variable.toInt ) else v( _v.variable.toInt ) }
-  def evaluate( p : (LBool, Int )) : Option[String] = {
-    val (b,i) = p
+  def evaluate( b : LBool, i : Int ) : Option[ String ] = {
     if (b == TRUE) Some(i.toString)
     else if (b == FALSE) Some((-i).toString)
     else None
   }
+  def evaluate( p : (LBool, Int )) : Option[String] = evaluate( p._1, p._2 )
   override def toString : String = v.zipWithIndex.map( evaluate(_) ).filterNot(_.isEmpty).mkString(" ")
 }
 
