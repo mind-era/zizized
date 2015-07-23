@@ -59,6 +59,8 @@ class ApproxSet[T] ( val e2u : (T) => Int, val capacity : Int = 64) extends Iter
   def |( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() |= rhs }
   def &( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() &= rhs }
   def -( rhs: ApproxSet[T] ) : ApproxSet[T] = { clone() -= rhs }
+  
+  def ++=( rhs : Iterable[T] ) : ApproxSet[ T ] = { discard { bitset ++=  rhs.map( e => e2s(e) ) } ; this}  
 
   /**
    * isEmpty returns true iff the bitset is empty

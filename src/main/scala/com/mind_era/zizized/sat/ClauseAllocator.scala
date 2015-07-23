@@ -16,5 +16,8 @@ import com.mind_era.zizized.sat.SatTypes._
  * @since 1.0
  */
 class ClauseAllocator {
+
   def getClause( c : ClauseOffset ) : Clause = c  
+  
+  
 }
