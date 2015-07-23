@@ -27,7 +27,7 @@ object SatTypes {
   val NullBoolVar : BoolVar = com.mind_era.zizized.util.cpp.UINT_MAX >> 1
   
   type LiteralVector = Vector[Literal]
-  type ClauseOffset = UInt
+  type ClauseOffset = Clause // TODO: this might cause problems, originally being an int casted from a void*
   type ExtConstraintIdx = UInt
   type ExtJustificationIdx = UInt
   
@@ -36,6 +36,7 @@ object SatTypes {
   type BoolVarSet = UIntSet 
   
   type WatchList = Vector[ Watched ] // from sat_watched.h
+  type ClauseWrapperVector = Vector[ ClauseWrapper ] // from sat_clause.h
 }
 
 class Literal( v : SatTypes.BoolVar = SatTypes.NullBoolVar, isPositive : Boolean = true) {

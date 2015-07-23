@@ -9,9 +9,12 @@ import com.mind_era.zizized.sat.SatTypes._
 /**
  * TODO document package com.mind_era.zizized.sat.ClauseAllocator
  * 
+ * A ClauseAllocator in the cpp code gets a memory chunk and treats a clause as an int offset within that chunk.
+ * This class should probably be removed in the near future.   
+ * 
  * @author Szabolcs Ivan
  * @since 1.0
  */
 class ClauseAllocator {
-  def getClause( c : ClauseOffset ) : String = "" // TODO temp stub  
+  def getClause( c : ClauseOffset ) : Clause = c  
 }

@@ -20,7 +20,7 @@ import scala.collection.mutable.BitSet
  * @author Szabolcs Ivan
  * @since 1.0
  */
-class ApproxSet[T] protected ( val e2u : (T) => Int, val capacity : Int = 64) extends Iterable[ Int ]{
+class ApproxSet[T] ( val e2u : (T) => Int, val capacity : Int = 64) extends Iterable[ Int ]{
   /**
    * Instead of a Long we use a BitSet here 
    */
