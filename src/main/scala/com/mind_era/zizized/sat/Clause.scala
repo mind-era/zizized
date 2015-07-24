@@ -7,6 +7,7 @@ package com.mind_era.zizized.sat
 import com.mind_era.zizized.sat.SatTypes._
 import com.mind_era.zizized.util._
 import spire.math.UInt
+import com.mind_era.zizized.util.IdGenerator
 
 sealed trait ClauseWrapper extends Iterable[ Literal ] {
   def apply( i : Int ) : Literal
