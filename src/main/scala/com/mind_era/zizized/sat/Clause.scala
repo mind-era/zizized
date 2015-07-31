@@ -27,6 +27,8 @@ sealed trait ClauseWrapper extends Iterable[ Literal ] {
  */
 class Clause private ( val id : UInt, literals : Iterable[ Literal ], learned : Boolean) extends ClauseWrapper{
   val capacity = literals.size // TODO this field is probably safe to remove
+  //No idea why or how Nothing was inferred.
+  @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.Nothing"))
   var varApproxSet : VarApproxSet = new VarApproxSet( x => x.toInt );
   // TODO consider using a BitSet here instead of this one for status
   var status : Int = Clause.LEARNED // STRENGTHENED | REMOVED | LEARNED | USED | FROZEN | REINIT_STACK

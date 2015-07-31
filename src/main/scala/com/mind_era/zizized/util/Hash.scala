@@ -21,6 +21,7 @@ object Hash {
     val c2 = (c - a2 - b2)^(b2>>db)
     (a2,b2,c2)
   }
+  @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.Throw"/*False positive*/))
   def mix( a : UInt , b : UInt, c : UInt ) : (UInt, UInt, UInt) = {
     val (a2,b2,c2) = mix( a,b,c, 8, 13, 13 )
     val (a3,b3,c3) = mix( a2,b2,c2, 16, 5, 12 )
@@ -52,17 +53,17 @@ object Hash {
     var a = _a
     var b = _b
     var c = _c
-    if( len == 11 ) c = c + (UInt(strIter.next().toByte)<<24)
-    if( len >= 10 ) c = c + (UInt(strIter.next().toByte)<<16)
-    if( len >= 9 ) c = c + (UInt(strIter.next().toByte)<<8)
-    if( len >= 8 ) b = b + (UInt(strIter.next().toByte)<<24)
-    if( len >= 7 ) b = b + (UInt(strIter.next().toByte)<<16)
-    if( len >= 6 ) b = b + (UInt(strIter.next().toByte)<<8)
-    if( len >= 5 ) b = b + UInt(strIter.next().toByte)
-    if( len >= 4 ) a = a + (UInt(strIter.next().toByte)<<24)
-    if( len >= 3 ) a = a + (UInt(strIter.next().toByte)<<16)
-    if( len >= 2 ) a = a + (UInt(strIter.next().toByte)<<8)
-    if( len >= 1 ) a = a + UInt(strIter.next().toByte)
+    if( len == 11 ) c = c + (charToUInt(strIter.next())<<24)
+    if( len >= 10 ) c = c + (charToUInt(strIter.next())<<16)
+    if( len >= 9 ) c = c + (charToUInt(strIter.next())<<8)
+    if( len >= 8 ) b = b + (charToUInt(strIter.next())<<24)
+    if( len >= 7 ) b = b + (charToUInt(strIter.next())<<16)
+    if( len >= 6 ) b = b + (charToUInt(strIter.next())<<8)
+    if( len >= 5 ) b = b + charToUInt(strIter.next())
+    if( len >= 4 ) a = a + (charToUInt(strIter.next())<<24)
+    if( len >= 3 ) a = a + (charToUInt(strIter.next())<<16)
+    if( len >= 2 ) a = a + (charToUInt(strIter.next())<<8)
+    if( len >= 1 ) a = a + charToUInt(strIter.next())
     mix(a,b,c)
   }
   def stringHash( str : String , initValue : UInt ) : UInt = {
@@ -72,9 +73,10 @@ object Hash {
     var len : Int = str.length()
     var iter : Iterator[ Char ] = str.iterator
     while( len >= 12 ) {
-      a = a + (UInt( iter.next().toByte ) << 16 ) + UInt( iter.next().toByte )
-      b = b + (UInt( iter.next().toByte ) << 16 ) + UInt( iter.next().toByte )
-      c = c + (UInt( iter.next().toByte ) << 16 ) + UInt( iter.next().toByte )
+      a = a + (charToUInt(iter.next()) << 16 ) + charToUInt(iter.next())
+      b = b + (charToUInt(iter.next()) << 16 ) + charToUInt(iter.next())
+      c = c + (charToUInt(iter.next()) << 16 ) + charToUInt(iter.next())
+      @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.Throw"/*False positive*/))
       val (a1,b1,c1) = mix( a, b, c )
       a = a1
       b = b1
@@ -82,6 +84,7 @@ object Hash {
       len = len-12
     }
     c = c + UInt( str.length() )
+    @SuppressWarnings(Array("org.brianmckenna.wartremover.warts.Throw"/*False positive*/))
     val (_,_,c2) = stringHashCases( str.reverseIterator, len, a, b, c )
     c2
   }

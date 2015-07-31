@@ -23,9 +23,9 @@ class Statistics {
   
   /** TODO : figure out the intended semantics, why is zero special */
   def update( key : String, inc : UInt ) : Unit = 
-    if( inc != UInt(0) ) discard{ map += ( (key, Left(inc) ) ) } 
+    if( inc != UInt(0) ) discard{ map += ( (key, Left[UInt, Double](inc) ) ) } 
   def update( key : String, inc : Double ) : Unit = 
-    if( inc != 0.0 ) discard{ map += ((key,Right(inc))) }
+    if( inc != 0.0 ) discard{ map += ((key,Right[UInt, Double](inc))) }
   /** TODO : figure out the intended semantics, what if maps are nonempty */
   def copy( stats : Statistics ) : Unit = discard { map ++= stats.map }
   def reset() : Unit = map.clear()
