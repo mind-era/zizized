@@ -23,4 +23,6 @@ notifications:
     on_start: false     # default: false
 script: "sbt clean coverage test"
 after_success:
+  - ln -s src/main/scala/com ./
   - sbt coveralls
+  - rm -f com
