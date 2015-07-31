@@ -32,7 +32,7 @@ class Statistics {
   def display( f : (String) => String ) : String = {
     val max = Statistics.getMaxLength( map.keySet )
     val sortedEntries : Vector[(String,Either[UInt,Double])] = 
-      (new Vector() ++ map) sortBy[String]( { case (s,e) => s; case _ => "" } )
+      map.to[Vector].sortBy[String]( { case (s,e) => s; case _ => "" } )
 
    sortedEntries.map( { case (s,e) => e match {
       case Left(u) => f(s).padTo(max+1, ' ') + u 
