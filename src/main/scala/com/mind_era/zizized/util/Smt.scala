@@ -6,26 +6,26 @@ package com.mind_era.zizized.util
 
 /**
  * TODO document package com.mind_era.zizized.util.Smt
- * 
+ *
  * @author Szabolcs Ivan
  * @since 1.0
  */
 object Smt {
-  
-  def isSmt2SimpleSymbolChar( s : Char ) : Boolean =
-        ('0' <= s && s <= '9') ||
-        ('a' <= s && s <= 'z') ||
-        ('A' <= s && s <= 'Z') ||
-        s == '~' || s == '!' || s == '@' || s == '$' || s == '%' || s == '^' || s == '&' ||
-        s == '*' || s == '_' || s == '-' || s == '+' || s == '=' || s == '<' || s == '>' ||
-        s == '.' || s == '?' || s == '/'
-  def isSmt2QuotedSymbol( s : Option[String] ) : Boolean = {
+
+  def isSmt2SimpleSymbolChar(s: Char): Boolean =
+    ('0' <= s && s <= '9') ||
+      ('a' <= s && s <= 'z') ||
+      ('A' <= s && s <= 'Z') ||
+      s == '~' || s == '!' || s == '@' || s == '$' || s == '%' || s == '^' || s == '&' ||
+      s == '*' || s == '_' || s == '-' || s == '+' || s == '=' || s == '<' || s == '>' ||
+      s == '.' || s == '?' || s == '/'
+  def isSmt2QuotedSymbol(s: Option[String]): Boolean = {
     s match {
       case None => false
-      case Some(str) => if(('0' <= str(0) )&&( str(0) <= '9' )) true
-                        else !str.forall( isSmt2SimpleSymbolChar(_))
+      case Some(str) => if (('0' <= str(0)) && (str(0) <= '9')) true
+      else !str.forall(isSmt2SimpleSymbolChar(_))
       case _ => false // make the compiler happy
-    } 
+    }
   }
   // TODO: symbol funcs  
 }
@@ -53,4 +53,4 @@ std::string mk_smt2_quoted_symbol(symbol const & s) {
 }
 }
 * 
-*/
+*/ 

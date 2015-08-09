@@ -9,7 +9,7 @@ import spire.math.UInt
 
 /**
  * Tests for the com.mind_era.util package object.
- * 
+ *
  * @author Gabor Bakos
  */
 class UtilTest extends FlatSpec {
@@ -19,12 +19,12 @@ class UtilTest extends FlatSpec {
   }
   it must "work well for values in the range of 0-127" in {
     assert(byteToUInt(127.toByte) == UInt(127))
-  } 
+  }
   "charToUInt" should "handle values larger than 255" in {
     assert(charToUInt('\u0100') == UInt(0))
     assert(charToUInt('\u00ff') == UInt(255))
   }
   it must "work well for values in the range of 0-127" in {
-	  assert(charToUInt(127) == UInt(127))
-  } 
+    assert(charToUInt(127) == UInt(127))
+  }
 }

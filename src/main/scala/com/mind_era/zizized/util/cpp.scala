@@ -7,9 +7,11 @@ package com.mind_era.zizized.util
 import spire.math.UInt
 
 /**
+ * Some architecture specific constants.
+ * 
  * @author Szabolcs Ivan
- * @since version
+ * @since 1.0
  */
 object cpp {
-  val UINT_MAX : UInt = UInt.MaxValue
+  val UINT_MAX: UInt = UInt.MaxValue
 }
