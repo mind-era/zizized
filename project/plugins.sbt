@@ -21,4 +21,4 @@ resolvers += Resolver.url("sbt-scoverage repo", url("https://dl.bintray.com/sksa
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.3.3")
 
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.3")
