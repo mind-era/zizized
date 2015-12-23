@@ -37,13 +37,13 @@ libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
 
 //OSGi
 
-//sbtOsgi 0.8 enablePlugins(SbtOsgi)
+enablePlugins(SbtOsgi)
 
 libraryDependencies += "org.osgi" % "org.osgi.core" % "4.3.0" % "provided"
 
 osgiSettings
 
-//sbtOsgi 0.8 OsgiKeys.bundleRequiredExecutionEnvironment := Some("JavaSE-1.8")
+OsgiKeys.bundleRequiredExecutionEnvironment := Seq("JavaSE-1.8")
 
 OsgiKeys.exportPackage := Seq("com.mind_era.zizized")
 

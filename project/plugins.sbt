@@ -13,7 +13,7 @@ addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
 
 addSbtPlugin("com.lihaoyi" % "scalatex-sbt-plugin" % "0.3.1")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.7.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.8.0")
 
 resolvers += Classpaths.sbtPluginReleases
 
