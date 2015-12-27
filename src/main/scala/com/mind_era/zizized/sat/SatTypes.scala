@@ -76,8 +76,8 @@ class Model(val v: Vector[LBool]) {
 }
 
 class LiteralSet extends UIntSet {
-  def insert(l: Literal): Unit = super.insert(l.index.toInt)
-  def contains(l: Literal): Boolean = super.contains(l.index.toInt)
+  def insert(l: Literal): Unit = super.insert(l.index)
+  def contains(l: Literal): Boolean = super.contains(l.index)
 }
 
 //TODO mem_stat is unimplemented
