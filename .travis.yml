@@ -24,5 +24,6 @@ notifications:
 script: "sbt clean coverage test"
 after_success:
   - ln -s src/main/scala/com ./
+  - sbt coverageReport
   - sbt coveralls
   - rm -f com
